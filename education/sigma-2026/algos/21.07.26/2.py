@@ -1,12 +1,25 @@
-from random import randint
+from random import randint, shuffle
 
 n = int(input())
-a = [randint(1, n) for _ in range(n+1)]
-ans = "не найден"
-
-for i in range(len(a)-1):
-    if a[i] == a[i+1]:
-        ans = i
+a = list(range(1, n+1)) + [randint(1, n)]
+shuffle(a)
 
 print(a)
-print("Повторяющийся элемент: ", a[ans])
+
+i = j = a[0]
+while True:
+    i = a[i]
+    j = a[a[j]]
+
+    if i == j:
+        break
+
+i = a[0]
+while True:
+    i = a[i]
+    j = a[j]
+
+    if i == j:
+        break
+
+print(i)

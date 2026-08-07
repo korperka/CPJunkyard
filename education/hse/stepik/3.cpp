@@ -3,19 +3,23 @@
 using ll = long long;
 using namespace std;
 
-bool check(int v, vector<vector<ll>>& g, vector<int>& col) {
+void dfs(int v, vector<vector<ll>>& g, vector<int>& col, bool& hasCycle) {
     col[v] = 1;
 
     for (int i = 0; i < g.size(); i++) {
         if (g[v][i] == 1) {
-            if (col[i] == 0) return check(i, g, col);
-            else if (col[i] == 1) return true;
+            if (col[i] == 0) {
+                dfs(i, g, col, hasCycle);
+                if(hasCycle) return;
+            }
+            else if (col[i] == 1) {
+                hasCycle = true;
+                return;
+            }
         }
     }
 
     col[v] = 2;
-
-    return false;
 }
 
 int main() {
@@ -26,5 +30,9 @@ int main() {
         for (int j = 0; j < n; j++)
             cin >> g[i][j];
 
+    bool hasCycle = false;
+    vector<int> col(g.size(), 0);
+    dfs(0, g, col, hasCycle);
 
+    cout << hasCycle << "\n";
 }
